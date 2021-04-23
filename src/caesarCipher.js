@@ -1,8 +1,10 @@
 const caesar = (string, key) => {
+  if (key < 0) return caesar(string, key + 26);
+
   let encryptedString = "";
   for (let i = 0; i < string.length; i++) {
-    let code = string.charCodeAt(i);
-    if (charIsALetter(code)) {
+    let code = string[i].charCodeAt();
+    if (string[i].match(/[a-z]/i)) {
       if (code + key > lastLetterCode(code)) {
         let lastLetter = lastLetterCode(code);
         let shift = key - (lastLetter - code);
@@ -19,8 +21,5 @@ const caesar = (string, key) => {
 
 const lastLetterCode = (charCode) =>
   charCode >= 65 && charCode <= 90 ? 90 : 122;
-
-const charIsALetter = (charCode) =>
-  (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122);
 
 module.exports = caesar;
