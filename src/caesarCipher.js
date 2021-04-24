@@ -5,18 +5,15 @@ const caesar = (string, key) => {
   for (let i = 0; i < string.length; i++) {
     let code = string[i].charCodeAt();
     if (string[i].match(/[a-z]/i)) {
-      if (code + key > lastLetterCode(code)) {
-        let lastLetter = lastLetterCode(code);
+      if (code >= 65 && code <= 90) {
 
-        // get the number of shifts left after reaching the last alphabet (z/Z)
-        // if w is 116 then (122 - 116) = 6
-        // then the number of shifts left is the (key - 6)
-        let shift = key - (lastLetter - code);
-
-        // start from the character before the first alphabet and add the shifts left
-        encryptedString += String.fromCharCode(lastLetter - 26 + shift);
+        // add the key to the code and then start from the top by subtracting a/A
+        // and then mod by 26 which means a = 0, b = 1 e.t.c
+        // and then add it to a/A to get the letter code
+        // Use this https://gist.github.com/EvanHahn/2587465#gistcomment-2391301 if you ever forget
+        encryptedString += String.fromCharCode((code + key - 65) % 26 + 65);
       } else {
-        encryptedString += String.fromCharCode(code + key);
+        encryptedString += String.fromCharCode((code + key - 97) % 26 + 97);
       }
     } else {
       encryptedString += string[i];
@@ -24,8 +21,5 @@ const caesar = (string, key) => {
   }
   return encryptedString;
 };
-
-const lastLetterCode = (charCode) =>
-  charCode >= 65 && charCode <= 90 ? 90 : 122;
 
 module.exports = caesar;
